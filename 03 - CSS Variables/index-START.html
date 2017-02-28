@@ -21,6 +21,23 @@
   <img src="https://source.unsplash.com/7bwQXzbF6KE/800x500">
 
   <style>
+  /* highest level element, it could be <html>, but has higher specificity */
+    :root {
+      --base: #ffc600;
+      --spacing: 10px;
+      --blur: 10px;
+    }
+
+    img {
+      /* compatible with older browsers (--) */
+      padding: var(--spacing);
+      background: var(--base);
+      filter: blur(var(--blur));
+    }
+
+    .h1 {
+      color: var(--base);
+    }
 
     /*
       misc styles, nothing to do with CSS variables
@@ -48,6 +65,26 @@
   </style>
 
   <script>
+    const inputs = document.querySelectorAll('.controls input');
+
+    function handleUpdate() {
+      // dataset prop of this refers to the made up data attr name after data-''
+      const suffix = this.dataset.sizing || '';
+
+      //changing the <html> prop values dynamically,
+      //but the <input> that is mouseovered
+      document.documentElement.style.setProperty(`--${this.name}`, this.value + suffix);
+
+      //documentElement returns the root element (<html>)
+
+      //setProperty(propName, propValue)
+      //In this case, propName is the CSS variable set dynamically: (padding, blur or base color). PropValue is the value in px
+    }
+
+    inputs.forEach(input => input.addEventListener('change', handleUpdate));
+
+    inputs.forEach(input => input.addEventListener('mousemove', handleUpdate));
+
   </script>
 
 </body>
